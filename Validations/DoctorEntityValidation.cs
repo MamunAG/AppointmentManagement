@@ -7,11 +7,13 @@ using FluentValidation;
 
 namespace AppointmentManagement.Validations
 {
-    public class DoctorEntityValidation : AbstractValidator<Doctor>
+    public class DoctorEntityValidation : AbstractValidator<DoctorDto>
     {
         public DoctorEntityValidation()
         {
-            RuleFor(x => x.Name).NotNull().NotEmpty().WithName("Name").WithMessage("Please Input Name.");
+            RuleFor(x => x.Name)
+                .NotNull().NotEmpty().WithName("Name").WithMessage("Please Input Name.")
+                .MinimumLength(2).WithMessage("Name at least have 2 characters.");
         }
     }
 }

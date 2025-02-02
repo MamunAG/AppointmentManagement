@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AppointmentManagement.Model;
+using AppointmentManagement.Model.Dto;
 using AutoMapper;
 
 namespace AppointmentManagement.lib
@@ -11,6 +8,7 @@ namespace AppointmentManagement.lib
     {
         public MapperInitilizer()
         {
+            CreateMap<AppUser, LoginUserDTO>().ReverseMap();
             CreateMap<Doctor, DoctorDto>().ReverseMap();
             CreateMap<Appointment, AppointmentDto>().ReverseMap();
         }

@@ -1,5 +1,8 @@
+using System.Text.Json.Serialization;
 using AppointmentManagement.lib;
 using AppointmentManagement.Model;
+using AppointmentManagement.Service;
+using AppointmentManagement.Service.Auth;
 using ClickErp.Api.IRepository;
 using ClickErp.Api.Repository;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +11,8 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var jwtKey = builder.Configuration.GetSection("Jwt").GetSection("key").Value;
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -53,14 +58,26 @@ builder.Services.AddSwaggerGen(c =>
             }
     });
 });
-builder.Services.AddControllers().AddJsonOptions(options =>
+// builder.Services.AddControllers().AddJsonOptions(options =>
+// {
+//     options.JsonSerializerOptions.PropertyNamingPolicy = null;
+// });
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
-    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.SerializerOptions.PropertyNamingPolicy = null; // Keep PascalCase instead of camelCase
+    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull; // Ignore null properties
+    options.SerializerOptions.WriteIndented = true; // Pretty print JSON
 });
+builder.Services.AddJwtAuthentication(jwtKey!);
+builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(MapperInitilizer));
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IAuthManager, AuthManager>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+
 
 var app = builder.Build();
 

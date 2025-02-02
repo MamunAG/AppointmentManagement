@@ -14,6 +14,9 @@ namespace AppointmentManagement.Service
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+
+            var i = httpContextAccessor.HttpContext!.User;
+            var dd = httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.Name);
             _userId = httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         }
         public async Task<IEnumerable<DoctorDto>> GetAllDoctors()
@@ -40,10 +43,6 @@ namespace AppointmentManagement.Service
         }
         public async Task<DoctorDto> Update(string id, DoctorDto dto)
         {
-            if (id != dto.Id.ToString())
-            {
-                throw new Exception("Invalid request.");
-            }
             dto.UpdatedBy = _userId;
             dto.UpdatedDate = DateTime.Now;
 
@@ -70,7 +69,6 @@ namespace AppointmentManagement.Service
             {
                 throw new Exception("Invalid request.");
             }
-
 
             var doctor = await _unitOfWork.Doctor.GetAsync(d => d.Id.ToString() == id);
             if (doctor == null)
