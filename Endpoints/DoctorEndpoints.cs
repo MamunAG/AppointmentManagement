@@ -18,7 +18,7 @@ public class DoctorEndpoints : IEndpointDefinition
     }
 
     private async Task<IResult> GetAllDoctors(
-        // ILogger<DoctorEndpoints> _logger,
+        ILogger<DoctorEndpoints> _logger,
         IDoctorService _doctorService)
     {
         try
@@ -28,8 +28,8 @@ public class DoctorEndpoints : IEndpointDefinition
         }
         catch (System.Exception err)
         {
-            // _logger.LogInformation("GetAllDoctors: " + err.Message);
-            return Results.BadRequest("Something went wrong.");
+            _logger.LogInformation("GetAllDoctors: " + err.Message);
+            return Results.BadRequest(err.Message);
         }
 
     }
@@ -52,7 +52,7 @@ public class DoctorEndpoints : IEndpointDefinition
         catch (System.Exception err)
         {
             _logger.LogInformation("GetDoctorById: " + err.Message);
-            return Results.BadRequest("Something went wrong.");
+            return Results.BadRequest(err.Message);
         }
     }
 
@@ -82,7 +82,7 @@ public class DoctorEndpoints : IEndpointDefinition
         catch (System.Exception err)
         {
             _logger.LogInformation("Doctor-Save: " + err.Message);
-            return Results.BadRequest("Something went wrong.");
+            return Results.BadRequest(err.Message);
         }
 
     }
@@ -118,7 +118,7 @@ public class DoctorEndpoints : IEndpointDefinition
         catch (System.Exception err)
         {
             _logger.LogInformation("Doctor-Update: " + err.Message);
-            return Results.BadRequest("Something went wrong.");
+            return Results.BadRequest(err.Message);
         }
     }
 
@@ -140,7 +140,7 @@ public class DoctorEndpoints : IEndpointDefinition
         catch (System.Exception err)
         {
             _logger.LogInformation("Doctor-Delete: " + err.Message);
-            return Results.BadRequest("Something went wrong.");
+            return Results.BadRequest(err.Message);
         }
 
     }

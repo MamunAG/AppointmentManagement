@@ -7,7 +7,7 @@ using FluentValidation;
 
 namespace AppointmentManagement.Validations
 {
-    public class AppointmentEntityValidation : AbstractValidator<Appointment>
+    public class AppointmentEntityValidation : AbstractValidator<AppointmentDto>
     {
         public AppointmentEntityValidation()
         {

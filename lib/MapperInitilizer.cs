@@ -10,7 +10,14 @@ namespace AppointmentManagement.lib
         {
             CreateMap<AppUser, LoginUserDTO>().ReverseMap();
             CreateMap<Doctor, DoctorDto>().ReverseMap();
-            CreateMap<Appointment, AppointmentDto>().ReverseMap();
+
+            CreateMap<Appointment, AppointmentDto>()
+            .ForMember(dest => dest.DoctorId, opt => opt
+            .MapFrom((src, dest) => src.DoctorId.ToString()));
+
+            CreateMap<AppointmentDto, Appointment>()
+           .ForMember(dest => dest.DoctorId, opt => opt
+           .MapFrom((src, dest) => new Guid(src.DoctorId!)));
         }
     }
 }

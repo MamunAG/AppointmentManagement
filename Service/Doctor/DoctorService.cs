@@ -14,9 +14,6 @@ namespace AppointmentManagement.Service
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-
-            var i = httpContextAccessor.HttpContext!.User;
-            var dd = httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.Name);
             _userId = httpContextAccessor.HttpContext!.User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
         }
         public async Task<IEnumerable<DoctorDto>> GetAllDoctors()
@@ -52,7 +49,7 @@ namespace AppointmentManagement.Service
                 throw new Exception("This doctor not found");
             }
             dto.CreatedBy = doctor.CreatedBy;
-            dto.CreatedDate = doctor.UpdatedDate;
+            dto.CreatedDate = doctor.CreatedDate;
 
             doctor = _mapper.Map(dto, doctor);
 

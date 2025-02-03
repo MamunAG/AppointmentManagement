@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppointmentManagement.Model
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Doctor : BaseModel
     {
         [Key]

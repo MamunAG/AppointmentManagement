@@ -10,8 +10,8 @@ namespace AppointmentManagement.Model
         public string? PatientContactInfo { get; set; }
         public DateTime AppointmentDate { get; set; }
 
-        public Guid DoctorId { get; set; }
-        public virtual Doctor? Doctors { get; set; }
+        public string? DoctorId { get; set; }
+        public virtual DoctorDto? Doctors { get; set; }
 
     }
 }

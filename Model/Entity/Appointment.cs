@@ -16,7 +16,5 @@ namespace AppointmentManagement.Model
         public Guid DoctorId { get; set; }
         public virtual Doctor? Doctors { get; set; }
 
-
-
     }
 }

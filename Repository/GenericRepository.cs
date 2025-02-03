@@ -81,10 +81,8 @@ namespace ClickErp.Api.Repository
             => _dbContext.RemoveRange(entities);
 
 
-        public void Update(T entity)
-        {
+        public void Update(T entity) =>
             _dbContext.Entry(entity).State = EntityState.Modified;
-        }
 
 
         public void UpdateRange(IEnumerable<T> entities)
