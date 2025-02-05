@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout Stage') {
+            steps {
+                git credentialsId: 'github_uk', url: 'https://github.com/gitUserName/RepositoryName.git', branch: 'master'
+            }
+        }
+        stage('Build Stage') {
+            steps {
+                bat 'dotnet build  %WORKSPACE%\\AppointmentManagement'
+            }
+        }
+        stage('Release') {
+            steps {
+                bat 'dotnet publish --configuration Release  %WORKSPACE%\\AppointmentManagement'
+            }
+        }
+        
+        stage("Release Stage") {
+            steps {
+                bat 'dotnet build %WORKSPACE%\\AppointmentManagement /p:PublishProfile=" %WORKSPACE%\\AppointmentManagement\\Properties\\PublishProfiles\\FolderProfile.pubxml" /p:Platform="Any CPU" /p:DeployOnBuild=true /m'
+            }
+        }
+        
+        stage('Deploy Stage') {
+            steps {
+                bat 'net stop "w3svc"'
+                
+                bat '"C:\\Program Files (x86)\\IIS\\Microsoft Web Deploy V3\\msdeploy.exe" -verb:sync -source:package="%WORKSPACE%\\AppointmentManagement\\bin\\Any CPU\\Debug\\net8.0\\AppointmentManagement.zip" -dest:auto -setParam:"IIS Web Application Name"="AppointmentManagement" -skip:objectName=filePath,absolutePath=".\\\\PackagDemoeTmp\\\\Web.config$" -enableRule:DoNotDelete -allowUntrusted=true'
+                
+                bat 'net start "w3svc"'
+            }
+        }
+    }
+}

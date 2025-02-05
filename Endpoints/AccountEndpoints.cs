@@ -66,7 +66,7 @@ public class AccountEndpoints : IEndpointDefinition
         catch (System.Exception err)
         {
             _logger.LogInformation(err.Message);
-            return Results.BadRequest("Please try again.");
+            return Results.BadRequest("Username or Password is not incorrect. Please try again.");
         }
     }
 
